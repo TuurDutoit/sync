@@ -1,0 +1,32 @@
+{
+  "name": "sync",
+  "version": "0.0.1",
+  "description": "Execute it all at once!",
+  "main": "index.js",
+  "dependencies": {},
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "for f in tests/*; do echo \"$f\"; node \"$f\"; done; echo 'passed!'; exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TuurDutoit/sync.git"
+  },
+  "keywords": [
+    "execute",
+    "together",
+    "sync",
+    "synchronously",
+    "easy",
+    "small"
+  ],
+  "author": "Tuur Dutoit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TuurDutoit/sync/issues"
+  },
+  "homepage": "https://github.com/TuurDutoit/sync",
+  "devDependencies": {}
+}
