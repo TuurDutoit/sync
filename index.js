@@ -47,5 +47,5 @@ var cb = function(results) {
 	console.log();
 	console.log("results:", results);
 }
-var ex = Sync(two).options("Hello,", "World!").add(one, "How are you?").cb(cb);
+var ex = new Sync(two).options("Hello,", "World!").add(one, "How are you?").cb(cb);
 Sync.example = ex;
