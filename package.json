@@ -1,6 +1,6 @@
 {
   "name": "synchronouz",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Execute it all at once!",
   "main": "index.js",
   "dependencies": {},
