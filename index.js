@@ -28,7 +28,7 @@ var cb = function(results) {
 
 Sync(one).add(two, "Hello").options("World").callback(cb).exec();*/
 
-
+/*
 var one = function(msg, cb) {
 	setTimeout(function() {
 		console.log(msg);
@@ -49,3 +49,5 @@ var cb = function(results) {
 }
 var ex = new Sync(two).options("Hello,", "World!").add(one, "How are you?").cb(cb);
 Sync.example = ex;
+
+*/
