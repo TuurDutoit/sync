@@ -2,52 +2,32 @@ var Sync = require("./lib/sync");
 exports = module.exports = Sync;
 
 
-//Here's a small example:
-
-/*var one = function(msg, cb) {
-	console.log("One began:", msg);
-	setTimeout(function() {
-		console.log("One ended:", msg);
-		cb("One:", msg);
-	}, 2300);
-}
-
-var two = function(msg, cb) {
-	console.log("Two began:", msg);
-	setTimeout(function() {
-		console.log("Two ended:", msg);
-		cb("Two:", msg);
-	}, 1000);
-}
-
-var cb = function(results) {
-	console.log("Everything ended!");
-	console.log("Results:");
-	console.log(results);
-}
-
-Sync(one).add(two, "Hello").options("World").callback(cb).exec();*/
-
-/*
-var one = function(msg, cb) {
-	setTimeout(function() {
-		console.log(msg);
-		cb(msg);
-	}, 2500);
-}
-var two = function(msg1, msg2, cb) {
-	setTimeout(function() {
-		console.log(msg1);
-		console.log(msg2);
-		cb(msg1, msg2);
-	}, 1000);
-}
-var cb = function(results) {
-	console.log("I'm good!");
-	console.log();
-	console.log("results:", results);
-}
-var ex = new Sync(two).options("Hello,", "World!").add(one, "How are you?").cb(cb);
-Sync.example = ex;
-
-*/
+// var one = function(msg, cb) {
+// 	console.log("one:", msg);
+// 	setTimeout(function() {
+// 		console.log("one ended last");
+// 		cb("Hello from func 1");
+// 	}, 1000);
+// }
+// var two = function(msg, cb) {
+// 	console.log("two:", msg);
+// 	setTimeout(function() {
+// 		console.log("two ended first");
+// 		if(msg === "error") {
+// 			cb(new Error("Error!!!"));
+// 		}
+// 		else {
+// 			cb("Hello from func 2", "A second hello");
+// 		}
+// 	}, 500);
+// }
+// var cb = function(err, res) {
+// 	console.log("error:", err);
+// 	console.log("result:", res);
+// }
+// var s = new Sync()
+// s.add(one, ["is ok"]);
+// s.add(two);
+// s.args(["is also ok"]); //change the string to "error" to test error handling
+// s.cb(cb);
+// s.exec();
