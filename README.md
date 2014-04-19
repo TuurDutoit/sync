@@ -5,6 +5,10 @@ Synchronouz
 
 Synchronouz lets you execute several function (as much as you want, actually!) at the same time, and a callback when everything finished. It was made as a Node.js module, but it's so dead simple (No more than 50 lines of code!) that it should work in the browser, too.
 
+> **Note:** I'm sorry I didn't update the docs in README.md: they were really outdated! But I fixed that issue, and now, everything is up to date! Enjoy!
+
+> **Note:** These docs treat v2.0.x. I promise to update as soon as possible when a new release comes out!
+
 ## Installation
 
 
