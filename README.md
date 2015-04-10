@@ -3,64 +3,82 @@ Synchronouz
 
 #### Execute it all at the once!
 
-Synchronouz lets you execute several function (as much as you want, actually!) at the same time, and a callback when everything finished. It was made as a Node.js module, but it's so dead simple (No more than 50 lines of code!) that it should work in the browser, too.
+Synchronouz lets you execute several functions (as much as you want, actually!) at the same time, and emits a `done` event when everything finished.
 
-> **Note:** I'm sorry I didn't update the docs in README.md: they were really outdated! But I fixed that issue, and now, everything is up to date! Enjoy!
-
-> **Note:** These docs treat v2.0.x. I promise to update as soon as possible when a new release comes out!
 
 ## Installation
 
 
-To install, just type `npm install synchronouz` in a terminal.<br />
+To install, just type `npm install synchronouz` in a terminal.  
 To then use it, just do `var sync = require("synchronouz");` in your application.
 
 
 ## Usage
 
 
-### Sync/Synchronous  ( *function(args, cb) [,function(), ...]* )
-*Or whatever you've named it!*<br />
-**Sync is just a function, to which you can pass the functions you want to execute**.<br />
-Pass in as many as you want!
+### Sync  (function|function[] functions...) : constructor
+__functions:__ *function or Array.\<function\>; Rest*. Any amount of functions or Arrays of functions to add.
+
+Sync (or whatever you've called it) is a constructor, to which you can pass the same arguments as to `Sync#add`. You can also call it as normal function.
 
 ```javascript
-/* Pass in some functions */
-var one = function(args, cb) {...};
-var two = function(args, cb) {
+var one = function(cb) {...};
+var two = function(cb) {
     cb("Hello, world!");
 };
-sync(one, two, function(args, cb) {...});
+Sync(one, two);
+    .exec();
 ```
 
-> **Note:** All functions should execute their callback (`cb`), otherwise the final callback will never be executed!
+> __Note:__ All functions should execute their callback (`cb`), otherwise the final callback will never be executed!
 
-### Sync#options   ( *options[]* )
-### Sync#arguments ( *options[]* )
-### Sync#args      ( *options[]* )
-**The an array of arguments to pass to the functions.**<br />
-The arguments will be `.apply()`ed to each function, with the callback as last argument. In the example, we pass in an array with one item in it, the string `"Hello, world!"`. So the first argument to each function will be that string:
+
+### Sync#arguments (any[] arguments) - .
+*Alias: `Sync#args`, `Sync#options`*  
+__arguments:__ *Array.\<any\>*. The an array of arguments to apply to the functions.  
+__*return:*__ *Sync*. For chaining.
+
+The arguments will be `.apply()`ed to each function, with the callback as last argument. These are default arguments, so if you pass in arguments for `Sync.add`, these will not be used (for that particular function).  
+In the example, we pass in an array with one item in it, the string `"Hello, world!"`. So the first argument to each function will be that string:
 
 ```javascript
-/* Now, use some options */
 var one = function(message, cb) {
     console.log(message);
     cb();
 }
-var two = function(message, cb) {...}
-sync(one, two, function(message, cb){...})
+var two = function(message, cb) {
+    console.log(message);
+    cb();
+}
+
+Sync()
     .options(["Hello, world!"]);
+    .add(one);
+    .add(two, ["hi"]);
+    .exec();
     
 //Will log:
-//"Hello, world!"
+// Hello, world!
+// hi
 ```
 
-### Sync#add ( *function(), arguments[]* )
-**Add a function with the given arguments**
-With `Sync.add()`, a function is added to the stack, but instead of using the arguments passed in with `Sync.options`, it will use the arguments passed to this function. For example:
+
+### Sync#args
+*Alias for `Sync#arguments`.*
+
+
+### Sync#options
+*Alias for `Sync#arguments`.*
+
+
+### Sync#add (function|function[] function, [any[] arguments]) - .
+__function:__ *function or Array.\<function\>*. A function, or array of functions, to add.  
+__arguments:__ *Array.\<any\>; Optional*. An optional array of arguments to apply to the function(s).
+__*return:*__ *Sync*. For chaining.
+
+With `Sync.add()`, a function is added to the stack, but instead of using the arguments passed in with `Sync#arguments`, it will use the arguments passed to this method. For example:
 
 ```javascript
-/*Add a function*/
 var one = function(message, cb) {
     console.log("One: " + message);
     cb();
@@ -72,61 +90,54 @@ var two = function(anotherMessage, cb) {
 Sync(one)
     .options(["A message to One (and all other functions passed to Sync())!"]);
     .add(two, ["But this is a message to Two!"]);
-    .exec(function(err, result) {...});
+    .exec();
 ```
     
 
-### Sync#callback  ( *function(err, results)* )
-### Sync#cb  ( *function(err, results)* )
-**The callback to execute when all functions are done.**<br />
-The callback will be executed when all of the functions passed to `sync` have executed their callback, so make sure they do so!
-Two arguments, `err` and `results`, will be passed to the callback. If one of the functions encountered an error, `err` will contain the object it passed as the firts argument to its callback (normally, an Error object). Otherwise, `err` will be `null` and `result`will contain all the results the functions have returned. In the example, you can see how it is structured:
+### Sync#execute  ([function callback]) - .
+__callback:__ *function; Optional*. An optional callback for the `Sync#"done"` event.  
+__*return:*__ *Sync*. For chaining.
+
+Executes all the functions at once. You can optionally pass in a callback to be bound to the `Sync#"done"` event.
 
 ```javascript
-/* Demonstrate callbacks */
 var one = function(args, cb) {
     console.log(args);
-    cb(args, "Bye!");
+    cb();
 }
 var two = function(args, cb) {
-    cb("This is function Two!");
+    cb();
 }
-sync(one, two, function(args, cb){...})
+Sync(one, two)
     .options("Hello, world!")
-    .callback(function(results) {
-        console.log(results);
-    });
-
-//Will output:
-//[["Hello, world!", "Bye!"], ["This is function Two!"], []]
-```
-
-### Sync#execute  ( *function(err, result)* )
-### Sync#exec ( *function(err, result)* )
-**Execute the functions.**<br />
-You can optionally pass in a callback, wich will only be used if none has been set with `Sync.callback`.
-
-```javascript
-/* And execute functions! */
-var one = function(args, cb) {
-    console.log(args);
-    cb(args, "Bye!");
-}
-var two = function(args, cb) {
-    cb("This is function Two!");
-}
-sync(one, two, function(args, cb){...})
-    .options("Hello, world!")
-    .callback(function(results) {
-        console.log(results);
-    })
     .exec(function(results) {
-        //Will never be executed
-        console.log("This is an alternative callback!");
+        console.log("Done!");
     });
     
-//Will output:
-//[["Hello, world!", "Bye!"], ["This is function Two!"], []]
+//Will log:
+// Hello, world!
+// Done!
+```
+
+
+### Sync#"done" (arguments[]|Error results)
+__results:__ the results of the functions.
+
+When all the functions have run (i.e. all of them have executed their callback), the `done` event is emitted, with one argument: an array of Argument objects that were passed to the callbacks (in the order that the functions were added). One exception to this rule, is when one of the functions returned an Error: then, the `done` event is called immediately, with the Error it returned. The other results are ignored.
+
+
+```javascript
+var one = function(cb) {
+    cb();
+}
+var two = function(cb) {
+    cb(new Error("404"));
+}
+Sync(one, two)
+    .on("done", function(result) {
+        console.log(result);
+    })
+    .exec();
 ```
 
 
