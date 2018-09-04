@@ -26,7 +26,7 @@ var one = function(cb) {...};
 var two = function(cb) {
     cb("Hello, world!");
 };
-Sync(one, two);
+Sync(one, two)
     .exec();
 ```
 
@@ -52,9 +52,9 @@ var two = function(message, cb) {
 }
 
 Sync()
-    .options(["Hello, world!"]);
-    .add(one);
-    .add(two, ["hi"]);
+    .options(["Hello, world!"])
+    .add(one)
+    .add(two, ["hi"])
     .exec();
     
 //Will log:
@@ -88,8 +88,8 @@ var two = function(anotherMessage, cb) {
     cb();
 }
 Sync(one)
-    .options(["A message to One (and all other functions passed to Sync())!"]);
-    .add(two, ["But this is a message to Two!"]);
+    .options(["A message to One (and all other functions passed to Sync())!"])
+    .add(two, ["But this is a message to Two!"])
     .exec();
 ```
     
@@ -120,7 +120,7 @@ Sync(one, two)
 ```
 
 
-### Sync#"done" (arguments[]|Error results)
+### Sync@done (arguments[]|Error results)
 __results:__ the results of the functions.
 
 When all the functions have run (i.e. all of them have executed their callback), the `done` event is emitted, with one argument: an array of Argument objects that were passed to the callbacks (in the order that the functions were added). One exception to this rule, is when one of the functions returned an Error: then, the `done` event is called immediately, with the Error it returned. The other results are ignored.
@@ -142,12 +142,12 @@ Sync(one, two)
 
 
 
-##LICENSE
+## LICENSE
 
 
 **The MIT License (MIT)**
 
-Copyright (c) 2014 Tuur Dutoit
+Copyright (c) 2014-2018 Tuur Dutoit
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
